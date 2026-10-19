@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thông Báo Khởi Hành: Love Express 🚂✨</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     * {
@@ -101,7 +101,15 @@
       color: #fda4af;
       margin-bottom: 20px;
       box-shadow: 0 0 15px rgba(225, 29, 72, 0.3);
+      transition: all 0.4s ease;
     }
+    .status-badge.arrived {
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid rgba(34, 197, 94, 0.6);
+      color: #4ade80;
+      box-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+    }
+
     .status-dot {
       width: 8px;
       height: 8px;
@@ -109,6 +117,10 @@
       border-radius: 50%;
       box-shadow: 0 0 10px #f43f5e;
       animation: blinkDot 1s infinite alternate;
+    }
+    .status-badge.arrived .status-dot {
+      background: #4ade80;
+      box-shadow: 0 0 12px #4ade80;
     }
     @keyframes blinkDot {
       from { opacity: 0.3; transform: scale(0.8); }
@@ -145,7 +157,7 @@
       margin-bottom: 24px;
     }
 
-    /* ĐỒNG HỒ ĐẾM NGƯỢC */
+    /* ĐỒNG HỒ ĐẾM NGƯỢC CHÍNH */
     .countdown-section {
       background: rgba(15, 23, 42, 0.65);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -187,7 +199,7 @@
       margin-top: 3px;
     }
 
-    /* BẢNG LỊCH TRÌNH */
+    /* THÔNG TIN CHUYẾN TÀU */
     .scan-card {
       background: rgba(2, 6, 23, 0.5);
       border: 1px dashed rgba(56, 189, 248, 0.25);
@@ -236,8 +248,59 @@
       transform: translateY(-2px) scale(1.02);
       box-shadow: 0 10px 35px rgba(225, 29, 72, 0.7);
     }
+    .launch-btn.ready-btn {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      box-shadow: 0 6px 30px rgba(16, 185, 129, 0.6);
+      animation: pulseBtn 1.5s infinite;
+    }
+    @keyframes pulseBtn {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
 
-    /* MÀN HÌNH THÔNG BÁO XIN QUÝ KHÁCH VUI LÒNG ĐỢI */
+    /* GIAO DIỆN ĐẾM NGƯỢC 60 GIÂY KHẨN CẤP */
+    .urgent-countdown {
+      display: none;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .urgent-countdown.show {
+      display: block;
+      opacity: 1;
+      transform: scale(1);
+    }
+    .urgent-timer-circle {
+      width: 140px;
+      height: 140px;
+      border: 4px solid rgba(244, 63, 94, 0.3);
+      border-top-color: #f43f5e;
+      border-radius: 50%;
+      margin: 10px auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: spinCircle 2s linear infinite;
+      box-shadow: 0 0 30px rgba(244, 63, 94, 0.4);
+    }
+    @keyframes spinCircle {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .urgent-seconds {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 4rem;
+      font-weight: 900;
+      color: #facc15;
+      text-shadow: 0 0 20px rgba(250, 204, 21, 0.8);
+      animation: counterPulse 1s ease-in-out infinite;
+    }
+    @keyframes counterPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    /* MÀN HÌNH CHỜ THÔNG THƯỜNG */
     .waiting-screen {
       display: none;
       opacity: 0;
@@ -249,7 +312,6 @@
       opacity: 1;
       transform: scale(1);
     }
-
     .stop-sign {
       font-size: 4rem;
       margin-bottom: 16px;
@@ -259,7 +321,6 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
-
     .notice-title {
       font-size: 1.28rem;
       font-weight: 900;
@@ -270,7 +331,6 @@
       margin-bottom: 16px;
       text-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
     }
-
     .notice-desc {
       font-size: 0.95rem;
       color: #e2e8f0;
@@ -281,7 +341,6 @@
       border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-
     .back-btn {
       background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.25);
@@ -306,11 +365,11 @@
   <div class="teaser-wrapper">
     <div class="teaser-inner">
       
-      <!-- PHẦN 1: GIAO DIỆN CHÍNH DEMO TRAILER -->
+      <!-- PHẦN 1: GIAO DIỆN TRAILER BÌNH THƯỜNG -->
       <div id="mainTeaser">
-        <div class="status-badge">
+        <div class="status-badge" id="statusBadge">
           <span class="status-dot"></span>
-          Đang Chờ Khởi Hành • 20/10/2026
+          <span id="badgeText">Đang Chờ Khởi Hành • 20/10/2026</span>
         </div>
 
         <div class="train-emblem">🚂✨</div>
@@ -319,7 +378,7 @@
 
         <!-- ĐỒNG HỒ ĐẾM NGƯỢC -->
         <div class="countdown-section">
-          <div class="countdown-title">Thời gian khởi hành chính thức</div>
+          <div class="countdown-title" id="cdTitle">Thời gian khởi hành chính thức</div>
           <div class="countdown-grid">
             <div class="count-box">
               <div class="count-num" id="d">00</div>
@@ -352,17 +411,33 @@
           </div>
           <div class="scan-row">
             <span>⏰ Giờ mở ga:</span>
-            <span class="scan-tag">00h00 • 20/10/2026</span>
+            <span class="scan-tag" id="statusTag">00h00 • 20/10/2026</span>
           </div>
         </div>
 
-        <!-- NÚT BẤM XỬ LÝ THEO THỜI GIAN -->
-        <button class="launch-btn" onclick="handleOpenTicket()">
+        <!-- NÚT BẤM -->
+        <button class="launch-btn" id="actionBtn" onclick="handleOpenTicket()">
           MỞ VÉ TRẢI NGHIỆM NGAY 🎫
         </button>
       </div>
 
-      <!-- PHẦN 2: MÀN HÌNH THÔNG BÁO VUI LÒNG ĐỢI -->
+      <!-- PHẦN 2: ĐỒNG HỒ 60 GIÂY CUỐI CÙNG -->
+      <div class="urgent-countdown" id="urgentScreen">
+        <div class="status-badge arrived">
+          <span class="status-dot"></span>
+          CHUẨN BỊ MỞ CỬA GA
+        </div>
+        <h2 style="font-size: 1.35rem; font-weight: 800; color: #f43f5e; margin: 10px 0;">CHUYẾN TÀU ĐANG VÀO SÂN GA!</h2>
+        <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 12px;">Chỉ còn ít giây nữa, thời khắc đặc biệt nhất sẽ bắt đầu...</p>
+        
+        <div class="urgent-timer-circle">
+          <div class="urgent-seconds" id="urgentSeconds">60</div>
+        </div>
+
+        <p style="font-size: 0.82rem; color: #facc15; font-weight: 600; letter-spacing: 1px;">HÃY CHỜ ĐỒNG HỒ CHẠM VỀ 0 NHÉ! ⏱️</p>
+      </div>
+
+      <!-- PHẦN 3: MÀN HÌNH CHỜ THÔNG THƯỜNG KHI CÒN NHIỀU HƠN 1 PHÚT -->
       <div class="waiting-screen" id="waitingScreen">
         <div class="stop-sign">🛑🚂</div>
         <div class="notice-title">
@@ -379,9 +454,109 @@
   </div>
 
   <script>
-    // THỜI ĐIỂM KHỞI HÀNH: 00:00:00 ngày 20/10/2026 (Tháng 10 trong JS là 9)
+    // THỜI ĐIỂM KHỞI HÀNH: 00:00:00 ngày 20/10/2026
     const targetDate = new Date(2026, 9, 20, 0, 0, 0).getTime();
+    let isTriggered = false;
 
+    // TIẾNG GÕ NHỊP ĐẾM 60 GIÂY
+    function playTickSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.frequency.setValueAtTime(800, ctx.currentTime);
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.08);
+      } catch (e) {}
+    }
+
+    // ÂM THANH CHUÔNG THÔNG BÁO NHÀ GA KHI ĐẾN 00:00
+    function playStationChime() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioCtx();
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // Do - Mi - Sol - Do cao
+        
+        notes.forEach((freq, index) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.value = freq;
+          
+          const startTime = ctx.currentTime + (index * 0.28);
+          gain.gain.setValueAtTime(0.01, startTime);
+          gain.gain.linearRampToValueAtTime(0.35, startTime + 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.001, startTime + 1.2);
+          
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(startTime);
+          osc.stop(startTime + 1.2);
+        });
+      } catch (e) {}
+    }
+
+    // PHÁO HOA BÙNG NỔ LIÊN TỤC
+    function fireContinuousConfetti() {
+      const end = Date.now() + 5 * 1000;
+      const colors = ['#f43f5e', '#fbbf24', '#38bdf8', '#34d399', '#ffffff'];
+
+      (function frame() {
+        confetti({
+          particleCount: 6,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0, y: 0.7 },
+          colors: colors
+        });
+        confetti({
+          particleCount: 6,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1, y: 0.7 },
+          colors: colors
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+    }
+
+    // THỜI KHẮC GIAO THỪA 00:00
+    function onMidnightCelebration() {
+      if (isTriggered) return;
+      isTriggered = true;
+
+      // Ẩn màn hình 60s và đưa về màn hình chính rực rỡ
+      document.getElementById('urgentScreen').classList.remove('show');
+      document.getElementById('waitingScreen').classList.remove('show');
+      document.getElementById('mainTeaser').style.display = 'block';
+
+      playStationChime();
+      fireContinuousConfetti();
+
+      document.getElementById('statusBadge').classList.add('arrived');
+      document.getElementById('badgeText').innerText = "ĐÃ ĐẾN GIỜ KHỞI HÀNH • CỬA SOÁT VÉ ĐÃ MỞ";
+      document.getElementById('cdTitle').innerText = "CHÚC MỪNG SINH NHẬT EM YÊU! 🎂";
+      document.getElementById('statusTag').innerText = "ĐANG ĐÓN KHÁCH";
+      
+      const btn = document.getElementById('actionBtn');
+      btn.classList.add('ready-btn');
+      btn.innerHTML = "LÊN TÀU NGAY THÔI 🚂✨";
+
+      // Tự động chuyển thẳng sang trang sinh nhật sau 4 giây ăn mừng
+      setTimeout(() => {
+        window.location.href = "https://duy-ben.github.io/index/";
+      }, 4000);
+    }
+
+    // VÒNG LẶP ĐẾM THỜI GIAN
     function updateCountdown() {
       const now = new Date().getTime();
       const diff = targetDate - now;
@@ -391,7 +566,20 @@
         document.getElementById('h').innerText = "00";
         document.getElementById('m').innerText = "00";
         document.getElementById('s').innerText = "00";
+        onMidnightCelebration();
         return;
+      }
+
+      const totalSecondsLeft = Math.floor(diff / 1000);
+
+      // NẾU CÒN DƯỚI HOẶC BẰNG 60 GIÂY: Tự động kích hoạt màn hình 60s
+      if (totalSecondsLeft <= 60 && totalSecondsLeft > 0) {
+        document.getElementById('mainTeaser').style.display = 'none';
+        document.getElementById('waitingScreen').classList.remove('show');
+        const urgent = document.getElementById('urgentScreen');
+        urgent.classList.add('show');
+        document.getElementById('urgentSeconds').innerText = totalSecondsLeft < 10 ? '0' + totalSecondsLeft : totalSecondsLeft;
+        playTickSound();
       }
 
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -407,7 +595,39 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // HIỆU ỨNG SAO BĂNG NỀN
+    // XỬ LÝ KHI BẤM NÚT "MỞ VÉ TRẢI NGHIỆM"
+    function handleOpenTicket() {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      // 1. Nếu đã đến hoặc qua giờ: Chuyển ngay
+      if (diff <= 0) {
+        window.location.href = "https://duy-ben.github.io/index/";
+        return;
+      }
+
+      const totalSecondsLeft = Math.floor(diff / 1000);
+
+      // 2. Nếu còn trong vòng 60 giây: Chuyển sang màn hình 60s hồi hộp
+      if (totalSecondsLeft <= 60) {
+        document.getElementById('mainTeaser').style.display = 'none';
+        document.getElementById('urgentScreen').classList.add('show');
+      } 
+      // 3. Nếu còn nhiều hơn 1 phút: Hiện thông báo chờ
+      else {
+        document.getElementById('mainTeaser').style.display = 'none';
+        document.getElementById('waitingScreen').classList.add('show');
+      }
+    }
+
+    function backToTeaser() {
+      document.getElementById('waitingScreen').classList.remove('show');
+      setTimeout(() => {
+        document.getElementById('mainTeaser').style.display = 'block';
+      }, 200);
+    }
+
+    // SAO BĂNG VŨ TRỤ
     const canvas = document.getElementById('starCanvas');
     const ctx = canvas.getContext('2d');
     let stars = [];
@@ -445,39 +665,6 @@
       requestAnimationFrame(animateStars);
     }
     animateStars();
-
-    // HÀM KIỂM TRA THỜI GIAN KHI BẤM NÚT
-    function handleOpenTicket() {
-      const now = new Date().getTime();
-
-      // NẾU CHƯA TỚI 00H00 NGÀY 20/10/2026: Hiện thông báo chờ
-      if (now < targetDate) {
-        const mainTeaser = document.getElementById('mainTeaser');
-        const waitingScreen = document.getElementById('waitingScreen');
-        mainTeaser.style.display = 'none';
-        waitingScreen.classList.add('show');
-      } 
-      // ĐÃ TỚI GIỜ: Bắn pháo hoa và chuyển thẳng sang web sinh nhật chính!
-      else {
-        confetti({
-          particleCount: 100,
-          spread: 80,
-          origin: { y: 0.6 }
-        });
-        setTimeout(() => {
-          window.location.href = "https://duy-ben.github.io/index/";
-        }, 800);
-      }
-    }
-
-    function backToTeaser() {
-      const mainTeaser = document.getElementById('mainTeaser');
-      const waitingScreen = document.getElementById('waitingScreen');
-      waitingScreen.classList.remove('show');
-      setTimeout(() => {
-        mainTeaser.style.display = 'block';
-      }, 200);
-    }
   </script>
 </body>
 </html>
