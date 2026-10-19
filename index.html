@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thông Báo Khởi Hành: Love Express 🚂✨</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -355,8 +356,8 @@
           </div>
         </div>
 
-        <!-- NÚT BẤM -->
-        <button class="launch-btn" onclick="showWaitingScreen()">
+        <!-- NÚT BẤM XỬ LÝ THEO THỜI GIAN -->
+        <button class="launch-btn" onclick="handleOpenTicket()">
           MỞ VÉ TRẢI NGHIỆM NGAY 🎫
         </button>
       </div>
@@ -378,8 +379,7 @@
   </div>
 
   <script>
-    // 1. THỜI GIAN KHỞI HÀNH: 00:00:00 ngày 20/10/2026
-    // Tháng 10 trong JavaScript là 9
+    // THỜI ĐIỂM KHỞI HÀNH: 00:00:00 ngày 20/10/2026 (Tháng 10 trong JS là 9)
     const targetDate = new Date(2026, 9, 20, 0, 0, 0).getTime();
 
     function updateCountdown() {
@@ -407,7 +407,7 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // 2. HIỆU ỨNG SAO BĂNG NỀN
+    // HIỆU ỨNG SAO BĂNG NỀN
     const canvas = document.getElementById('starCanvas');
     const ctx = canvas.getContext('2d');
     let stars = [];
@@ -446,19 +446,33 @@
     }
     animateStars();
 
-    // 3. CHUYỂN SANG MÀN HÌNH THÔNG BÁO VUI LÒNG ĐỢI
-    function showWaitingScreen() {
-      const mainTeaser = document.getElementById('mainTeaser');
-      const waitingScreen = document.getElementById('waitingScreen');
+    // HÀM KIỂM TRA THỜI GIAN KHI BẤM NÚT
+    function handleOpenTicket() {
+      const now = new Date().getTime();
 
-      mainTeaser.style.display = 'none';
-      waitingScreen.classList.add('show');
+      // NẾU CHƯA TỚI 00H00 NGÀY 20/10/2026: Hiện thông báo chờ
+      if (now < targetDate) {
+        const mainTeaser = document.getElementById('mainTeaser');
+        const waitingScreen = document.getElementById('waitingScreen');
+        mainTeaser.style.display = 'none';
+        waitingScreen.classList.add('show');
+      } 
+      // ĐÃ TỚI GIỜ: Bắn pháo hoa và chuyển thẳng sang web sinh nhật chính!
+      else {
+        confetti({
+          particleCount: 100,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+        setTimeout(() => {
+          window.location.href = "https://duy-ben.github.io/index/";
+        }, 800);
+      }
     }
 
     function backToTeaser() {
       const mainTeaser = document.getElementById('mainTeaser');
       const waitingScreen = document.getElementById('waitingScreen');
-
       waitingScreen.classList.remove('show');
       setTimeout(() => {
         mainTeaser.style.display = 'block';
